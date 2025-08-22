@@ -28,7 +28,7 @@ test("E2E Automation Practise", async ({ page }) => {
   const order = page.getByText("Thankyou for the order.")
   const orderId = page.locator('td.em-spacer-1 label').filter({hasText: '| '});
   const orderHistory = page.getByText("Orders History Page");
-  const orderTableId = page.locator("tbody th[scope='row']"); // localiza todas las filas con ordeId de tabla
+  const orderTableId = page.locator("tbody th[scope='row']");
 
 
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
@@ -36,7 +36,7 @@ test("E2E Automation Practise", async ({ page }) => {
   await password.fill("Aa123456789?");
   await loginLink.click();
   await page.locator(".card-body h5").first().waitFor();
-  const cardTitles = await page.locator(".card-body h5").allTextContents(); // va desde el parent(.card-body) hasta el child(h5)
+  const cardTitles = await page.locator(".card-body h5").allTextContents();
   console.log(cardTitles);
 
   const count = await products.count();
