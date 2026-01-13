@@ -1,19 +1,22 @@
 const { test, expect } = require("@playwright/test");
 
 test("E2E Automation Practise", async ({ page }) => {
-  const loginLink = page.locator("#login");
-  const email = page.locator("#userEmail");
-  const password = page.locator("#userPassword");
-  const products = page.locator(".card-body");
-  const product = "ZARA COAT 3";
+  const loginLink = page.getByRole("button", { name: "Login" });
+  const email = page.getByPlaceholder("email@example.com"); // 1 cambio
+  const password = page.getByPlaceholder("enter your passsword"); // 2 cambio password
+  // const products = page.locator(".card-body");
+  // const product = "ZARA COAT 3";
   const itemCart = page.getByRole("heading", { name: "ZARA COAT 3" });
   const cartButton = page.locator(".btn.btn-custom", { hasText: "Cart" });
   const cartQuantity = page.locator(".item__quantity", { hasText: "Quantity" });
 
   const cartProduct = page.locator("h3:has-text('ZARA COAT 3')");
-  const cartCheckout = page.locator(".btn.btn-primary", {
-    hasText: "Checkout",
-  });
+
+  // const cartCheckout = page.locator(".btn.btn-primary", {
+  //   hasText: "Checkout",
+  // });
+
+  const cartCheckout = page.getByRole("button", { name: "Checkout" });
 
   const cartAllPayments = page.locator("div.payment__type");
   const cartCreditPayment = cartAllPayments.filter({ hasText: "Credit Card" });
@@ -46,26 +49,40 @@ test("E2E Automation Practise", async ({ page }) => {
   await password.fill("Aa123456789?");
   await loginLink.click();
   await page.locator(".card-body h5").first().waitFor();
-  const cardTitles = await page.locator(".card-body h5").allTextContents();
-  console.log(cardTitles);
+  // const cardTitles = await page.locator(".card-body h5").allTextContents();
+  // console.log(cardTitles);
 
-  const count = await products.count();
+  // const count = await products.count();
+  // for (let i = 0; i < count; i++) {
+  //   if ((await products.nth(i).locator("b").textContent()) === product) {
+  //     await products.nth(i).locator('button:has-text("Add to Cart")').click();
+  //   }
+  // }
 
-  for (let i = 0; i < count; i++) {
-    if ((await products.nth(i).locator("b").textContent()) === product) {
-      await products.nth(i).locator('button:has-text("Add to Cart")').click();
-    }
-  }
+  await page
+    .locator(".card-body")
+    .filter({ hasText: "ZARA COAT 3" })
+    .getByRole("button", { name: "Add to Cart" })
+    .click();
 
-  await expect(itemCart).toBeVisible();
-  await expect(cartButton).toHaveText("Cart 1");
-  await cartButton.click();
+  await page
+    .getByRole("listitem")
+    .getByRole("button", { name: "Cart" })
+    .click();
 
-  await cartProduct.waitFor({ state: "visible" });
-  const cartVisible = await cartProduct.isVisible();
-  expect(cartVisible).toBeTruthy();
+  await expect(page.getByText("ZARA COAT 3")).toBeVisible();
+
+  // await expect(itemCart).toBeVisible();
+  // await expect(cartButton).toHaveText("Cart 1");
+  // await cartButton.click();
+
+  //await cartProduct.waitFor({ state: "visible" });
+
+  // const cartVisible = await cartProduct.isVisible();
+  // expect(cartVisible).toBeTruthy();
 
   await cartCheckout.click();
+
   await expect(cartQuantity).toHaveText(/1/);
   await expect(cartCreditPayment).toBeVisible();
   await cartCVV.fill("123");

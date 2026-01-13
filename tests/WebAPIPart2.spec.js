@@ -1,10 +1,25 @@
 const { test, expect } = require("@playwright/test");
 
-test("E2E Automation Practise", async ({ page }) => {
-  const loginLink = page.locator("#login");
-  const email = page.locator("#userEmail");
-  const password = page.locator("#userPassword");
+let webContext;
+
+test.beforeAll(async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
+  await page.locator("#userEmail").fill("cm90mdp@gmail.com");
+  await page.locator("#userPassword").fill("Aa123456789?");
+  await page.locator("#login").click();
+  await page.waitForLoadState("networkidle");
+  await context.storageState({ path: "state.json" });
+  webContext = await browser.newContext({ storageState: "state.json" });
+});
+
+test("E2E Automation Practise", async ({}) => {
+  const page = await webContext.newPage();
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   const products = page.locator(".card-body");
+
   const product = "ZARA COAT 3";
   const itemCart = page.getByRole("heading", { name: "ZARA COAT 3" });
   const cartButton = page.locator(".btn.btn-custom", { hasText: "Cart" });
@@ -40,11 +55,6 @@ test("E2E Automation Practise", async ({ page }) => {
     .filter({ hasText: "| " });
   const orderHistory = page.getByText("Orders History Page");
   const orderTableId = page.locator("tbody th[scope='row']");
-
-  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
-  await email.fill("cm90mdp@gmail.com");
-  await password.fill("Aa123456789?");
-  await loginLink.click();
   await page.locator(".card-body h5").first().waitFor();
   const cardTitles = await page.locator(".card-body h5").allTextContents();
   console.log(cardTitles);
