@@ -51,9 +51,8 @@ test("Place the order ", async ({ page }) => {
   await page.waitForLoadState("networkidle");
 
   await page.locator("button[routerlink*='myorders']").click();
-  //await page.pause();
+
   page.waitForResponse(
     "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6876b5c26eb37775309f51cd"
   );
-  console.log(await page.locator(".mt-4").textContent());
 });

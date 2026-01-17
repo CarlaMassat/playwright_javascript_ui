@@ -57,7 +57,6 @@ test("E2E Automation Practise", async ({}) => {
   const orderTableId = page.locator("tbody th[scope='row']");
   await page.locator(".card-body h5").first().waitFor();
   const cardTitles = await page.locator(".card-body h5").allTextContents();
-  console.log(cardTitles);
 
   const count = await products.count();
 
@@ -96,12 +95,9 @@ test("E2E Automation Practise", async ({}) => {
   const countOrderId = await orderTableId.count();
 
   for (let i = 0; i < countOrderId; i++) {
-    // obtiene id fila actual
     const currentId = await orderTableId.nth(i).textContent();
 
-    // compara id que esta buscando
     if (currentId === orderIdPrev) {
-      // Si coincide con la orden hace click en boton view
       const viewButton = page
         .locator(`tbody tr`)
         .nth(i)
@@ -109,12 +105,8 @@ test("E2E Automation Practise", async ({}) => {
         .first();
 
       await viewButton.click();
-      console.log(`Id: ${orderIdPrev}`);
 
-      // sale del bucle al encontrar la orden
       break;
     }
   }
-
-  await page.pause();
 });

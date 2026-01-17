@@ -2,19 +2,13 @@ const { test, expect } = require("@playwright/test");
 
 test("E2E Automation Practise", async ({ page }) => {
   const loginLink = page.getByRole("button", { name: "Login" });
-  const email = page.getByPlaceholder("email@example.com"); // 1 cambio
-  const password = page.getByPlaceholder("enter your passsword"); // 2 cambio password
-  // const products = page.locator(".card-body");
-  // const product = "ZARA COAT 3";
+  const email = page.getByPlaceholder("email@example.com");
+  const password = page.getByPlaceholder("enter your passsword");
   const itemCart = page.getByRole("heading", { name: "ZARA COAT 3" });
   const cartButton = page.locator(".btn.btn-custom", { hasText: "Cart" });
   const cartQuantity = page.locator(".item__quantity", { hasText: "Quantity" });
 
   const cartProduct = page.locator("h3:has-text('ZARA COAT 3')");
-
-  // const cartCheckout = page.locator(".btn.btn-primary", {
-  //   hasText: "Checkout",
-  // });
 
   const cartCheckout = page.getByRole("button", { name: "Checkout" });
 
@@ -49,16 +43,6 @@ test("E2E Automation Practise", async ({ page }) => {
   await password.fill("Aa123456789?");
   await loginLink.click();
   await page.locator(".card-body h5").first().waitFor();
-  // const cardTitles = await page.locator(".card-body h5").allTextContents();
-  // console.log(cardTitles);
-
-  // const count = await products.count();
-  // for (let i = 0; i < count; i++) {
-  //   if ((await products.nth(i).locator("b").textContent()) === product) {
-  //     await products.nth(i).locator('button:has-text("Add to Cart")').click();
-  //   }
-  // }
-
   await page
     .locator(".card-body")
     .filter({ hasText: "ZARA COAT 3" })
@@ -71,15 +55,6 @@ test("E2E Automation Practise", async ({ page }) => {
     .click();
 
   await expect(page.getByText("ZARA COAT 3")).toBeVisible();
-
-  // await expect(itemCart).toBeVisible();
-  // await expect(cartButton).toHaveText("Cart 1");
-  // await cartButton.click();
-
-  //await cartProduct.waitFor({ state: "visible" });
-
-  // const cartVisible = await cartProduct.isVisible();
-  // expect(cartVisible).toBeTruthy();
 
   await cartCheckout.click();
 
@@ -103,12 +78,9 @@ test("E2E Automation Practise", async ({ page }) => {
   const countOrderId = await orderTableId.count();
 
   for (let i = 0; i < countOrderId; i++) {
-    // obtiene id fila actual
     const currentId = await orderTableId.nth(i).textContent();
 
-    // compara id que esta buscando
     if (currentId === orderIdPrev) {
-      // Si coincide con la orden hace click en boton view
       const viewButton = page
         .locator(`tbody tr`)
         .nth(i)
@@ -116,12 +88,7 @@ test("E2E Automation Practise", async ({ page }) => {
         .first();
 
       await viewButton.click();
-      console.log(`Id: ${orderIdPrev}`);
-
-      // sale del bucle al encontrar la orden
       break;
     }
   }
-
-  await page.pause();
 });

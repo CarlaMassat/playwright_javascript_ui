@@ -13,7 +13,7 @@ export class DashBoardPage {
     await this.dashboardProducts.first().waitFor({ state: "visible" });
 
     const cardTitles = await this.dashboardProductsText.allTextContents();
-    console.log(cardTitles);
+
     const count = await this.dashboardProducts.count();
 
     for (let i = 0; i < count; i++) {

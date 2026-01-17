@@ -8,16 +8,15 @@ test("Browser Context Playwright", async ({ browser }) => {
 
 test("First Playwright", async ({ page }) => {
   await page.goto(" https://rahulshettyacademy.com/loginpagePractise/");
-  console.log(await page.title());
+
   await page.locator("#username").fill("rahulshettyacademy");
   await page.locator('[name="password"]').fill("learning");
   await page.locator("#signInBtn").click();
-  console.log(await page.locator("[style*='block']").textContent());
 });
 
 test("Browser Context-Validating Error login", async ({ page }) => {
   await page.goto(" https://rahulshettyacademy.com/loginpagePractise/");
-  console.log(await page.title());
+
   await page.locator("#username").fill("rahulshetty");
   await page.locator('[name="password"]').fill("learning");
   await page.locator("#signInBtn").click();
@@ -36,11 +35,7 @@ test("Browser Context-Validating login", async ({ page }) => {
   await page.locator("#signInBtn").click();
   await expect(page.locator('[value*="Signing"]')).toContainText("Signing ..");
 
-  console.log(await cardTitles.first().textContent());
-  console.log(await cardTitles.nth(1).textContent());
-
   const allTitles = await cardTitles.allTextContents();
-  console.log(allTitles);
 });
 
 test("Practise website register", async ({ page }) => {
@@ -129,7 +124,6 @@ test("Practise website login", async ({ page }) => {
   await loginLink.click();
   await page.locator(".card-body h5").first().waitFor();
   const cardTitles = await page.locator(".card-body h5").allTextContents();
-  console.log(cardTitles);
 });
 
 test("UI Controls", async ({ page }) => {
@@ -165,5 +159,4 @@ test("Child Windows handl", async ({ browser }) => {
   ]);
 
   const text = await newPage.locator(".red").textContent();
-  console.log(text);
 });

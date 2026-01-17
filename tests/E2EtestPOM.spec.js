@@ -18,11 +18,10 @@ test("E2E Automation Practise", async ({ page }) => {
   const coupon = "rahulshettyacademy";
   const couponApplied = "* Coupon Applied";
 
-  // Instancias a los page objects
-  const loginPage = new LoginPage(page); // instancia de la clase LoginPage
-  const dashbordPage = new DashBoardPage(page); // instancia de la clase DashboardPage
-  const cartPage = new CartPage(page); // instancia de la clase Dashboard
-  const orderPage = new OrderReviewPage(page); // instancia de la clase OrderReview
+  const loginPage = new LoginPage(page);
+  const dashbordPage = new DashBoardPage(page);
+  const cartPage = new CartPage(page);
+  const orderPage = new OrderReviewPage(page);
   const orderHistoryPage = new OrderHistoryPage(page);
 
   await loginPage.goto();
@@ -32,10 +31,8 @@ test("E2E Automation Practise", async ({ page }) => {
 
   await dashbordPage.navigateToCart();
 
-  // Aserciones
   const cartProduct = cartPage.getProductByName(expectedProduct);
 
-  console.log(await cartProduct.count());
   await expect(cartProduct).toBeVisible();
 
   await expect(cartPage.cartProductPrice).toHaveText(expectedTotalPrice);
@@ -47,8 +44,6 @@ test("E2E Automation Practise", async ({ page }) => {
 
   const orderProduct = await orderPage.getProductName();
   expect(orderProduct.trim()).toBe(expectedProduct);
-
-  // const cartQuantity = page.locator(".item__quantity", { hasText: "Quantity" });
 
   const payment = await orderPage.getPaymentMethod();
   expect(payment).toContain("Credit Card");
@@ -71,9 +66,6 @@ test("E2E Automation Practise", async ({ page }) => {
   expect(orderId).toBeTruthy();
   expect(orderId).toContain("| ");
 
-  console.log("order id", orderId);
-
   await orderHistoryPage.orderHistoryLink();
   await orderHistoryPage.getOrderHistoryId(orderId);
-  await page.pause();
 });
