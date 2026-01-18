@@ -1,6 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-
-import { ApiUtils } from "../utils/APIUtils";
+const { ApiUtils } = require("../utils/ApiUtils");
 
 const loginPayLoad = {
   userEmail: "cm90mdp@gmail.com",
@@ -27,7 +26,7 @@ test("Place the order ", async ({ page }) => {
     ({ token }) => {
       window.localStorage.setItem("token", token);
     },
-    { token: response.token }
+    { token: response.token },
   );
 
   await page.goto("https://rahulshettyacademy.com/client/");
