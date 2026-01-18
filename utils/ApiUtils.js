@@ -9,7 +9,7 @@ class ApiUtils {
       "https://rahulshettyacademy.com/api/ecom/auth/login",
       {
         data: this.loginPayLoad,
-      }
+      },
     );
 
     const loginResponseJson = await loginResponse.json();
@@ -30,7 +30,7 @@ class ApiUtils {
           Authorization: response.token,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     const orderResponseJson = await orderResponse.json();
