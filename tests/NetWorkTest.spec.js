@@ -1,6 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-
-import { ApiUtils } from "../utils/APIUtils";
+const { ApiUtils } = require("../utils/ApiUtils");
 
 const loginPayLoad = {
   userEmail: "cm90mdp@gmail.com",
@@ -29,7 +28,7 @@ test("Place the order ", async ({ page }) => {
     ({ token }) => {
       window.localStorage.setItem("token", token);
     },
-    { token: response.token }
+    { token: response.token },
   );
 
   await page.goto("https://rahulshettyacademy.com/client/");
@@ -44,7 +43,7 @@ test("Place the order ", async ({ page }) => {
         response,
         body,
       });
-    }
+    },
   );
 
   await page.reload();
@@ -53,6 +52,6 @@ test("Place the order ", async ({ page }) => {
   await page.locator("button[routerlink*='myorders']").click();
 
   page.waitForResponse(
-    "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6876b5c26eb37775309f51cd"
+    "https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/6876b5c26eb37775309f51cd",
   );
 });
